@@ -16,13 +16,13 @@ import okhttp3.Response;
 import com.qiniu.util.Auth;
 
 /**
- * ÆßÅ£ÔÆ ÏÂÔØ
+ * ä¸ƒç‰›äº‘ ä¸‹è½½ 
  * @author xuhuanchao
  *
  */
 public class QiniuDownload {
 	
-	//¸öÈËÃÜÔ¿
+	//ä¸ªäººå¯†é’¥
 	private static final String ACCESS_KEY = "Yf1g-y2WlerdVBX-YtQ6-N7wrsSeQubxTesvzvwf";
 	private static final String SECRECT_KEY = "7KBRN1YDgbDLRaVWxziOrA_YtFRqguNpSsmbtzpy";
 
@@ -32,11 +32,11 @@ public class QiniuDownload {
 	 */
 	public static void main(String[] args) {
 		String downloadPath = "D:\\Downloads\\qiniu\\demo\\";
-		//ÏÂÔØ¹«ÓÐ¿Õ¼äÎÄ¼þ
+		//ï¿½ï¿½ï¿½Ø¹ï¿½ï¿½Ð¿Õ¼ï¿½ï¿½Ä¼ï¿½
 //		String url = "http://orfsrm5qv.bkt.clouddn.com/img_desktop.jpg";
 //		downloadByGet(url, downloadPath);
 		
-		//ÏÂÔØË½ÓÐ¿Õ¼äÎÄ¼þ
+		//ï¿½ï¿½ï¿½ï¿½Ë½ï¿½Ð¿Õ¼ï¿½ï¿½Ä¼ï¿½
 		String privateUrl = "http://orh27r69f.bkt.clouddn.com/Freehand.jpg";
 		getPrivateResource(privateUrl, downloadPath);
 		
@@ -45,9 +45,9 @@ public class QiniuDownload {
 	
 	
 	/**
-	 * Í¨¹ýhttp get ÇëÇó½øÐÐÏÂÔØ
-	 * @param targetUrl ÏÂÔØµÄÎÄ¼þÁ´½Ó
-	 * @param downloadPath ÏÂÔØ´æ´¢Â·¾¶
+	 * Í¨ï¿½ï¿½http get ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+	 * @param targetUrl ï¿½ï¿½ï¿½Øµï¿½ï¿½Ä¼ï¿½ï¿½ï¿½ï¿½ï¿½
+	 * @param downloadPath ï¿½ï¿½ï¿½Ø´æ´¢Â·ï¿½ï¿½
 	 */
 	public static void downloadByGet(String targetUrl, String downloadPath) {
 		OkHttpClient client = new OkHttpClient();
@@ -75,7 +75,7 @@ public class QiniuDownload {
 	}
 	
 	/**
-	 * ÏÂÔØË½ÓÐ¿Õ¼äµÄÎÄ¼þ×ÊÔ´
+	 * ï¿½ï¿½ï¿½ï¿½Ë½ï¿½Ð¿Õ¼ï¿½ï¿½ï¿½Ä¼ï¿½ï¿½ï¿½Ô´
 	 * @param url
 	 * @param downloadPath
 	 */
@@ -112,7 +112,7 @@ public class QiniuDownload {
 	}
 	
 	/**
-	 * ¶ÁÈ¡Á÷ÐÅÏ¢£¬ ×ªÎª×Ö½ÚÊý×é
+	 * ï¿½ï¿½È¡ï¿½ï¿½ï¿½ï¿½Ï¢ï¿½ï¿½ ×ªÎªï¿½Ö½ï¿½ï¿½ï¿½ï¿½ï¿½
 	 * @param is
 	 * @return
 	 */
@@ -124,8 +124,8 @@ public class QiniuDownload {
 		ByteArrayOutputStream writer = new ByteArrayOutputStream();
 		int len = 0;
 		try {
-			while((len = is.read(buff)) != -1) { //½«Á÷is ÖÐµÄ×Ö½Ú»º³åµ½ buff Õâ¸ö×Ö½ÚÊý×éÖÐ
-				writer.write(buff, 0, len);		 //½«×Ö½ÚÊý×ébuff ÖÐµÄÊý¾Ý£¬ Ð´Èëµ½ writer¶ÔÏóÖÐ
+			while((len = is.read(buff)) != -1) { //ï¿½ï¿½ï¿½ï¿½is ï¿½Ðµï¿½ï¿½Ö½Ú»ï¿½ï¿½åµ½ buff ï¿½ï¿½ï¿½ï¿½Ö½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+				writer.write(buff, 0, len);		 //ï¿½ï¿½ï¿½Ö½ï¿½ï¿½ï¿½ï¿½ï¿½buff ï¿½Ðµï¿½ï¿½ï¿½ï¿½Ý£ï¿½ Ð´ï¿½ëµ½ writerï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 			}
 		} catch (IOException e) {
 			e.printStackTrace();

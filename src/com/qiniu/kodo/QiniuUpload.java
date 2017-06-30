@@ -12,6 +12,7 @@ import okhttp3.RequestBody;
 import com.qiniu.common.QiniuException;
 import com.qiniu.common.Zone;
 import com.qiniu.http.Response;
+import com.qiniu.storage.BucketManager;
 import com.qiniu.storage.Configuration;
 import com.qiniu.storage.Recorder;
 import com.qiniu.storage.UploadManager;
@@ -21,13 +22,13 @@ import com.qiniu.util.StringMap;
 
 
 /**
- * ÆßÅ£ÔÆÉÏ´«
+ * ï¿½ï¿½Å£ï¿½ï¿½ï¿½Ï´ï¿½
  * @author xuhuanchao
  *
  */
 public class QiniuUpload {
 	
-	//¸öÈËÃÜÔ¿
+	//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ô¿
 	private static final String ACCESS_KEY = "0ZT-Rd0AswhPQti5lX2Ytt1T6XkyM80eY_4w9Pm9";
 	private static final String SECRECT_KEY = "MbscrgLx_FefkUZ21SjY-GRE1oPJcvP2vvN6oXgW";
 
@@ -37,11 +38,11 @@ public class QiniuUpload {
 	 * @param args
 	 */
 	public static void main(String[] args) {
-		//1. Í¨¹ýÎÄ¼þÂ·¾¶½øÐÐÉÏ´«
-		String filePath = "F:\\Freehand.jpg";
-//		upload(filePath, "img_desktop.jpg", "java-bucket");
+		//1. Í¨ï¿½ï¿½ï¿½Ä¼ï¿½Â·ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ï´ï¿½
+		String filePath = "/Users/ryanxu/Downloads/97p58PICV26.jpg";
+		upload(filePath, "97p58PICV26_123123.jpg", "java-bucket");
 		
-		//2. Í¨¹ýÎÄ¼þÁ÷×ª×Ö½ÚÊý×é½øÐÐÉÏ´«
+		//2. Í¨ï¿½ï¿½ï¿½Ä¼ï¿½ï¿½ï¿½×ªï¿½Ö½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ï´ï¿½
 //		File file = new File(filePath);
 //		int length = Integer.parseInt(String.valueOf(file.length()));
 //		byte[] data = new byte[length];
@@ -56,36 +57,32 @@ public class QiniuUpload {
 //		}
 		
 		
-//		//3. ±íµ¥ÉÏ´«
+//		//3. ï¿½ï¿½ï¿½Ï´ï¿½
 //		boolean flag = uploadByForm(filePath, "test-bucket");
 //		System.out.println(flag + "");
 		
-		//4. ²âÊÔ·ÖÆ¬ÉÏ´«
-		String bigFilePath = "F:\\admin\\Mysql\\navicatformysql.zip";
-		uploadBySlice(bigFilePath, "test-bucket");
+		//4. ï¿½ï¿½ï¿½Ô·ï¿½Æ¬ï¿½Ï´ï¿½
+//		String bigFilePath = "F:\\admin\\Mysql\\navicatformysql.zip";
+//		uploadBySlice(bigFilePath, "test-bucket");
+		
+		
+		//5.è¦†ç›–ä¸Šä¼ 
+//		overrideUpload("test-bucket", "97p58PICV26.jpg", "/Users/ryanxu/Downloads/tooopen_sy.jpg");
 		
 	}
 	
 	
-	/**
-	 * ÉÏ´«ÎÄ¼þ
-	 * @param filePath
-	 * @param key ÉÏ´«µ½ÆßÅ£´æ´¢¿Õ¼äºó£¬ ÎÄ¼þ´æ´¢µÄÃû³Æ
-	 * @bucketName ÉÏ´«´æ´¢µÄÆßÅ£¿Õ¼äÃû³Æ
-	 */
 	public static void upload(String filePath, String key, String bucketName) {
-		//1. »ñÈ¡ÊÚÈ¨¶ÔÏóAuth
 		Auth auth = Auth.create(ACCESS_KEY, SECRECT_KEY);
 		
-		//2. »ñÈ¡Token
 		String uploadToken = auth.uploadToken(bucketName);
 		
-		//3. ÉÏ´«
 		Configuration cfg = new Configuration(Zone.zone0());
 		UploadManager uploadMgr = new UploadManager(cfg);
 		try {
 			File file = new File(filePath);
 			Response resp = uploadMgr.put(file, key, uploadToken);
+			System.out.println(resp.statusCode + ":" + resp.error);
 			boolean flag = resp.isOK();
 			if(flag) {
 				System.out.println(resp.bodyString());
@@ -93,25 +90,25 @@ public class QiniuUpload {
 				System.out.println(resp.error);
 			}
 		} catch (QiniuException e) {
-			//System.out.println(e.response.error);
+			System.out.println(e.response.error);
 			e.printStackTrace();
 		}
 	}
 	
 	/**
-	 * ÉÏ´«ÎÄ¼þ£¬ Í¨¹ý×Ö½ÚÊý×é½øÐÐÉÏ´«
+	 * ï¿½Ï´ï¿½ï¿½Ä¼ï¿½ï¿½ï¿½ Í¨ï¿½ï¿½ï¿½Ö½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ï´ï¿½
 	 * @param data
-	 * @param key ÉÏ´«µ½ÆßÅ£¿Õ¼ä ´æ´¢µÄÎÄ¼þÃû³Æ
+	 * @param key ï¿½Ï´ï¿½ï¿½ï¿½ï¿½ï¿½Å£ï¿½Õ¼ï¿½ ï¿½æ´¢ï¿½ï¿½ï¿½Ä¼ï¿½ï¿½ï¿½ï¿½ï¿½
 	 * @param bucketName
 	 */
 	public static void uploadByByteArray(byte[] data, String key, String bucketName) {
-		//1. »ñÈ¡ÊÚÈ¨¶ÔÏóAuth
+		//1. ï¿½ï¿½È¡ï¿½ï¿½È¨ï¿½ï¿½ï¿½ï¿½Auth
 		Auth auth = Auth.create(ACCESS_KEY, SECRECT_KEY);
 		
-		//2. »ñÈ¡Token
+		//2. ï¿½ï¿½È¡Token
 		String uploadToken = auth.uploadToken(bucketName);
 		
-		//3. ÉÏ´«
+		//3. ï¿½Ï´ï¿½
 		Configuration cfg = new Configuration(Zone.zone0());
 		UploadManager uploadMgr = new UploadManager(cfg);
 		try{
@@ -128,13 +125,13 @@ public class QiniuUpload {
 	
 	
 	/**
-	 * Post·½Ê½Ìá½»±íµ¥£¬ Í¨¹ý±íµ¥ÉÏ´«ÎÄ¼þ
+	 * Postï¿½ï¿½Ê½ï¿½á½»ï¿½ï¿½ï¿½ï¿½ Í¨ï¿½ï¿½ï¿½ï¿½ï¿½Ï´ï¿½ï¿½Ä¼ï¿½
 	 * @param filePath
 	 * @return
 	 */
 	public static boolean uploadByForm(String filePath, String bucketName) {
 		boolean flag = false;
-		//1. »ñÈ¡ÊÚÈ¨¶ÔÏóAuth
+		//1. ï¿½ï¿½È¡ï¿½ï¿½È¨ï¿½ï¿½ï¿½ï¿½Auth
 		Auth auth = Auth.create(ACCESS_KEY, SECRECT_KEY);
 		OkHttpClient client = new OkHttpClient();
 		String url = "http://upload.qiniu.com/";
@@ -166,19 +163,19 @@ public class QiniuUpload {
 	
 	
 	/**
-	 * ·ÖÆ¬ÉÏ´«
+	 * ï¿½ï¿½Æ¬ï¿½Ï´ï¿½
 	 * @param filePath
 	 * @param bucketName
 	 * @return
 	 */
 	public static boolean uploadBySlice(String filePath, String bucketName) {
 		boolean flag = false;
-		//1. »ñÈ¡ÊÚÈ¨¶ÔÏóAuth
+		//1. ï¿½ï¿½È¡ï¿½ï¿½È¨ï¿½ï¿½ï¿½ï¿½Auth
 		Auth auth = Auth.create(ACCESS_KEY, SECRECT_KEY);
 		Configuration cfg = new Configuration(Zone.zone0());
 		String directory = "D:\\Downloads\\qiniu\\slice_recorder";
 		try {
-			Recorder recorder = new FileRecorder(directory);		//ÉÏ´«µÄ¼ÇÂ¼±£´æ ÎÄ¼þÂ·¾¶
+			Recorder recorder = new FileRecorder(directory);		//ï¿½Ï´ï¿½ï¿½Ä¼ï¿½Â¼ï¿½ï¿½ï¿½ï¿½ ï¿½Ä¼ï¿½Â·ï¿½ï¿½
 			UploadManager uploadMgr = new UploadManager(cfg, recorder);
 			File file = new File(filePath);
 			
@@ -189,6 +186,25 @@ public class QiniuUpload {
 			e.printStackTrace();
 		}
 		return flag;
+	}
+	
+	/**
+	 * è¦†ç›–ä¸Šä¼ 
+	 * @param bucketName
+	 * @param key
+	 */
+	public static void overrideUpload(String bucketName, String key, String filePath) {
+		Auth auth = Auth.create(ACCESS_KEY, SECRECT_KEY);
+		Configuration cfg = new Configuration(Zone.zone0());
+		UploadManager uploadMgr = new UploadManager(cfg);
+		
+		String uploadToken = auth.uploadToken(bucketName, key);
+		try {
+			Response response = uploadMgr.put(filePath, key, uploadToken);
+			System.out.println(response.bodyString());
+		} catch (QiniuException e) {
+			e.printStackTrace();
+		}
 	}
 	
 	

@@ -32,11 +32,9 @@ public class QiniuDownload {
 	 */
 	public static void main(String[] args) {
 		String downloadPath = "D:\\Downloads\\qiniu\\demo\\";
-		//���ع��пռ��ļ�
 //		String url = "http://orfsrm5qv.bkt.clouddn.com/img_desktop.jpg";
 //		downloadByGet(url, downloadPath);
 		
-		//����˽�пռ��ļ�
 		String privateUrl = "http://orh27r69f.bkt.clouddn.com/Freehand.jpg";
 		getPrivateResource(privateUrl, downloadPath);
 		

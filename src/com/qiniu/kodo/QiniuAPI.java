@@ -21,13 +21,13 @@ import com.qiniu.util.Auth;
 import com.qiniu.util.UrlSafeBase64;
 
 /**
- * ÆßÅ£³£ÓÃ½Ó¿Ú
+ * ä¸ƒç‰›äº‘ å¸¸ç”¨API
  * @author xuhuanchao
  *
  */
 public class QiniuAPI {
 	
-	//¸öÈËÃÜÔ¿
+	//å¯†é’¥
 	private static final String ACCESS_KEY = "0ZT-Rd0AswhPQti5lX2Ytt1T6XkyM80eY_4w9Pm9";
 	private static final String SECRECT_KEY = "MbscrgLx_FefkUZ21SjY-GRE1oPJcvP2vvN6oXgW";
 
@@ -46,13 +46,15 @@ public class QiniuAPI {
 //		System.out.println(flag + "");
 		
 		
-		getResourcesByBucket("test-bucket");
+//		getResourcesByBucket("test-bucket");
+
 		
+		getMetadata("test-bucket", "Freehand.jpg");
 	}
 	
 	
 	/**
-	 * »ñÈ¡¹ÜÀíÆ¾Ö¤
+	 * ï¿½ï¿½È¡ï¿½ï¿½ï¿½ï¿½Æ¾Ö¤
 	 * @return
 	 */
 	public static String getAccessToken(String interfaceName) {
@@ -62,7 +64,7 @@ public class QiniuAPI {
 	}
 	
 	/**
-	 * »ñÈ¡Ò»¸öÕËºÅÏÂµÄËùÓĞ¿Õ¼ä Ãû³ÆÁĞ±í
+	 * è·å–æ‰€æœ‰çš„ç©ºé—´åˆ—è¡¨
 	 * @return
 	 */
 	public static List<String> getAllBuckets() {
@@ -91,9 +93,9 @@ public class QiniuAPI {
 	
 	
 	/**
-	 * ´´½¨Ò»¸ö´æ´¢¿Õ¼ä
-	 * @param bucketName ´´½¨µÄ´æ´¢¿Õ¼äÃû³Æ
-	 * @return true:´´½¨³É¹¦, false:´´½¨Ê§°Ü
+	 * ï¿½ï¿½ï¿½ï¿½Ò»ï¿½ï¿½ï¿½æ´¢ï¿½Õ¼ï¿½
+	 * @param bucketName ï¿½ï¿½ï¿½ï¿½ï¿½Ä´æ´¢ï¿½Õ¼ï¿½ï¿½ï¿½ï¿½ï¿½
+	 * @return true:ï¿½ï¿½ï¿½ï¿½ï¿½É¹ï¿½, false:ï¿½ï¿½ï¿½ï¿½Ê§ï¿½ï¿½
 	 */
 	public static boolean createBucket(String bucketName) {
 		boolean flag = false;
@@ -122,8 +124,8 @@ public class QiniuAPI {
 	
 	
 	/**
-	 * »ñÈ¡Ò»¸ö¿Õ¼ä°ó¶¨µÄÓòÃûÁĞ±í
-	 * @param bucketName ¿Õ¼äÃû³Æ
+	 * ï¿½ï¿½È¡Ò»ï¿½ï¿½ï¿½Õ¼ï¿½ó¶¨µï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ğ±ï¿½
+	 * @param bucketName ï¿½Õ¼ï¿½ï¿½ï¿½ï¿½ï¿½
 	 * @return List<String>
 	 */
 	public static List<String> getDomainListByBucket(String bucketName) {
@@ -153,7 +155,7 @@ public class QiniuAPI {
 	
 	
 	/**
-	 * ¸ù¾İ¿Õ¼äÃû³ÆÉ¾³ı¿Õ¼ä£¬ ¿Õ¼äÉ¾³ıºó£¬ ¸Ã¿Õ¼äµÄÄÚÈİ¶¼»áÉ¾³ı
+	 * ï¿½ï¿½ï¿½İ¿Õ¼ï¿½ï¿½ï¿½ï¿½ï¿½É¾ï¿½ï¿½ï¿½Õ¼ä£¬ ï¿½Õ¼ï¿½É¾ï¿½ï¿½ï¿½ï¿½ ï¿½Ã¿Õ¼ï¿½ï¿½ï¿½ï¿½ï¿½İ¶ï¿½ï¿½ï¿½É¾ï¿½ï¿½
 	 * @param bucketName
 	 * @return
 	 */
@@ -179,8 +181,8 @@ public class QiniuAPI {
 	
 	
 	/**
-	 * »ñÈ¡Ö¸¶¨¿Õ¼äÀïµÄËùÓĞ×ÊÔ´ÌõÄ¿
-	 * @param bucketName ¿Õ¼äÃû³Æ
+	 * è·å–ç©ºé—´ä¸­çš„èµ„æºæ–‡ä»¶
+	 * @param bucketName ç©ºé—´åç§°
 	 * @return
 	 */
 	public static List<String> getResourcesByBucket(String bucketName) {
@@ -200,13 +202,45 @@ public class QiniuAPI {
 			Response resp = client.newCall(req).execute();
 			if(resp.isSuccessful()) {
 				System.out.println(resp.body().string());
-				
 			}
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
 		return result;
 	}
+	
+	
+	
+	/**
+	 * è·å–èµ„æºçš„Metadataä¿¡æ¯ï¼Œä¸è¿”å›èµ„æºå†…å®¹
+	 * @param bucketName
+	 * @param key
+	 * @return
+	 */
+	public static void getMetadata(String bucketName, String key) {
+		String entryUrl = UrlSafeBase64.encodeToString(bucketName + ":" + key);
+		String connector = String.format("/stat/%s", entryUrl + "\n");
+		String reqUrl = String.format("http://rs.qiniu.com" + connector);
+		String accessToken = getAccessToken(connector);
+		StringBuffer metaInfo = new StringBuffer("");
+		OkHttpClient client = new OkHttpClient();
+		Request req = new Request.Builder().url(reqUrl)
+				.addHeader("Authorization", "QBox " + accessToken)
+				.build();
+		try {
+			Response resp = client.newCall(req).execute();
+			System.out.println(resp.code() + ":" + resp.message());
+			if(resp.isSuccessful()) {
+				metaInfo.append(resp.body().string());
+				System.out.println("Metadata : " + metaInfo);
+			}
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+	
+	
+	
 	
 	
 	

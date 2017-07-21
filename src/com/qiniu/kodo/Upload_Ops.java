@@ -3,6 +3,8 @@ package com.qiniu.kodo;
 import com.qiniu.common.QiniuException;
 import com.qiniu.common.Zone;
 import com.qiniu.http.Response;
+import com.qiniu.processing.OperationManager;
+import com.qiniu.processing.OperationStatus;
 import com.qiniu.storage.Configuration;
 import com.qiniu.storage.UploadManager;
 import com.qiniu.util.Auth;
@@ -12,9 +14,8 @@ import com.qiniu.util.UrlSafeBase64;
 public class Upload_Ops {
 
 	public static void main(String[] args) {
-		ops();
+//		ops();
 	}
-	
 	
 	
 	public static void ops() {

@@ -39,8 +39,8 @@ public class QiniuUpload {
 	 */
 	public static void main(String[] args) {
 		//1. ͨ���ļ�·�������ϴ�
-		String filePath = "/Users/ryanxu/Downloads/97p58PICV26.jpg";
-		upload(filePath, "97p58PICV26_123123.jpg", "java-bucket");
+		String filePath = "/Users/ryanxu/Downloads/imgs/stage.jpg";
+		upload(filePath, "test_stage.jpg", "test-bucket");
 		
 		//2. ͨ���ļ���ת�ֽ���������ϴ�
 //		File file = new File(filePath);
@@ -81,6 +81,7 @@ public class QiniuUpload {
 		UploadManager uploadMgr = new UploadManager(cfg);
 		try {
 			File file = new File(filePath);
+			System.out.println(uploadToken);
 			Response resp = uploadMgr.put(file, key, uploadToken);
 			System.out.println(resp.statusCode + ":" + resp.error);
 			boolean flag = resp.isOK();
@@ -102,14 +103,15 @@ public class QiniuUpload {
 	 * @param bucketName
 	 */
 	public static void uploadByByteArray(byte[] data, String key, String bucketName) {
-		//1. ��ȡ��Ȩ����Auth
+		//
 		Auth auth = Auth.create(ACCESS_KEY, SECRECT_KEY);
 		
-		//2. ��ȡToken
+		//
 		String uploadToken = auth.uploadToken(bucketName);
 		
-		//3. �ϴ�
+		//
 		Configuration cfg = new Configuration(Zone.zone0());
+//		Zone.autoZone()
 		UploadManager uploadMgr = new UploadManager(cfg);
 		try{
 			Response resp = uploadMgr.put(data, key, uploadToken);

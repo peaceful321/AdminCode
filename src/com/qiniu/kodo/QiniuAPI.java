@@ -239,12 +239,5 @@ public class QiniuAPI {
 		}
 	}
 	
-	
-	
-	
-	
-	
-
-	
 
 }

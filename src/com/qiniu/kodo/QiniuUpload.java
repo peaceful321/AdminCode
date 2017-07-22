@@ -3,23 +3,20 @@ package com.qiniu.kodo;
 import java.io.File;
 import java.io.IOException;
 
-import okhttp3.MediaType;
-import okhttp3.MultipartBody;
-import okhttp3.OkHttpClient;
-import okhttp3.Request;
-import okhttp3.RequestBody;
-
 import com.qiniu.common.QiniuException;
 import com.qiniu.common.Zone;
 import com.qiniu.http.Response;
-import com.qiniu.storage.BucketManager;
 import com.qiniu.storage.Configuration;
 import com.qiniu.storage.Recorder;
 import com.qiniu.storage.UploadManager;
 import com.qiniu.storage.persistent.FileRecorder;
 import com.qiniu.util.Auth;
-import com.qiniu.util.StringMap;
 
+import okhttp3.MediaType;
+import okhttp3.MultipartBody;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.RequestBody;
 
 /**
  * 七牛云上传 
@@ -32,7 +29,6 @@ public class QiniuUpload {
 	private static final String ACCESS_KEY = "0ZT-Rd0AswhPQti5lX2Ytt1T6XkyM80eY_4w9Pm9";
 	private static final String SECRECT_KEY = "MbscrgLx_FefkUZ21SjY-GRE1oPJcvP2vvN6oXgW";
 
-	
 	/**
 	 * Main method
 	 * @param args
@@ -176,7 +172,7 @@ public class QiniuUpload {
 		Configuration cfg = new Configuration(Zone.zone0());
 		String directory = "D:\\Downloads\\qiniu\\slice_recorder";
 		try {
-			Recorder recorder = new FileRecorder(directory);		//�ϴ��ļ�¼���� �ļ�·��
+			Recorder recorder = new FileRecorder(directory);
 			UploadManager uploadMgr = new UploadManager(cfg, recorder);
 			File file = new File(filePath);
 			

@@ -3,7 +3,6 @@ package com.qiniu.kodo;
 import java.io.File;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
-import java.time.format.DateTimeFormatter;
 import java.util.Date;
 
 import com.qiniu.common.QiniuException;
@@ -29,7 +28,7 @@ public class QiniuUploadPolicy {
 	
 	//AK, SK
 	private static final String ACCESS_KEY = "0ZT-Rd0AswhPQti5lX2Ytt1T6XkyM80eY_4w9Pm9";
-	private static final String SECRECT_KEY = "MbscrgLx_FefkUZ21SjY-GRE1oPJcvP2vvN6oXgW";
+	private static final String SECRET_KEY = "MbscrgLx_FefkUZ21SjY-GRE1oPJcvP2vvN6oXgW";
 
 	
 	/**
@@ -44,11 +43,37 @@ public class QiniuUploadPolicy {
 		//测试七牛 自定义变量， 也是通过上传策略中的returnBody， 也测试了 callbackUrl & callbackBody
 //		testUserDefinedVar("test-bucket", new File("/Users/ryanxu/Downloads/imgs/a0.jpg"));
 		
+		//测试七牛 上传策略中的 mimeType(文件类型)、 fsizeMin(文件大小最小值)、fsizeLimit(文件大小最大值)
+//		qualifyFileType("test-bucket", new File("/Users/ryanxu/Downloads/imgs/gif7.gif"));
 		
 		
 		
 	}
 	
+
+	/**
+	 * 限制上传的文件类型和大小
+	 * @param bucketName
+	 * @param target
+	 */
+	public static void qualifyFileType(String bucketName, File target) {
+		Auth auth = Auth.create(ACCESS_KEY, SECRET_KEY);
+		Configuration cfg = new Configuration(Zone.zone0());
+		UploadManager uploadMgr = new UploadManager(cfg);
+		StringMap putPolicy = new StringMap();
+		putPolicy.put("fsizeMin", 1024)						//文件大小最小为 1KB
+				 .put("fsizeLimit", 1024 * 1024 * 10)		//文件大小最大为 10M
+				 .putNotEmpty("mimeType", "image/jpg");		//文件类型为jpg图片, 所有图片 设置为 image/*
+		//获取upload token， 在token中设置上传策略中的 fsizeMin, fsizeLimit, mimeType
+		String token = auth.uploadToken(bucketName, "qualify11/" + target.getName(), 3600, putPolicy);
+		try {
+			Response resp = uploadMgr.put(target, "qualify11/" + target.getName(), token);
+			System.out.println(resp.statusCode + ":" +resp.bodyString());
+		} catch (QiniuException e) {
+			System.out.println(e.code() + ":" + e.getMessage());
+			e.printStackTrace();
+		}
+	}
 	
 	
 	/**
@@ -58,7 +83,7 @@ public class QiniuUploadPolicy {
 	 */
 	public static void testUserDefinedVar(String bucket, File target) {
 		//1.构建Auth 对象
-		Auth auth = Auth.create(ACCESS_KEY, SECRECT_KEY);
+		Auth auth = Auth.create(ACCESS_KEY, SECRET_KEY);
 
 		//2. 通过OKHttp 构建一个表单上传
 		OkHttpClient client = new OkHttpClient();
@@ -104,7 +129,7 @@ public class QiniuUploadPolicy {
 	 */
 	public static void testReturnBody(String bucket, File target) {
 		//1.构建Auth 对象
-		Auth auth = Auth.create(ACCESS_KEY, SECRECT_KEY);
+		Auth auth = Auth.create(ACCESS_KEY, SECRET_KEY);
 		//2.构建Configuration
 		Configuration cfg = new Configuration(Zone.zone0());
 		//3. 构建上传管理对象

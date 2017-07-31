@@ -99,11 +99,15 @@ public class QiniuAPI {
 	 */
 	public static boolean createBucket(String bucketName) {
 		boolean flag = false;
+		//需要创建的空间名称，进行 encode
 		String encodeBktName = UrlSafeBase64.encodeToString(bucketName);
+		//设置接口
 		String connector = "/mkbucketv2/" + encodeBktName + "/region/z0/global/false\n";
+		//url
 		String url = "http://rs.qiniu.com" + connector;
+		//token
 		String accessToken = getAccessToken(connector);
-		
+		//网络请求的API, 使用的是OKHttp
 		OkHttpClient client = new OkHttpClient();
 		Request req = new Request.Builder()
 							.url(url)
@@ -111,6 +115,7 @@ public class QiniuAPI {
 							.addHeader("Authorization", "QBox " + accessToken)
 							.build();
 		try {
+			//发送请求
 			Response resp = client.newCall(req).execute();
 			System.out.println(resp.code() + ":" + resp.message());
 			if(resp.isSuccessful()) {

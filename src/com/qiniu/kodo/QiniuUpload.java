@@ -35,8 +35,8 @@ public class QiniuUpload {
 	 */
 	public static void main(String[] args) {
 		//1. 七牛简单上传
-		String filePath = "/Users/ryanxu/Downloads/imgs/stage.jpg";
-		upload(filePath, "test_stage.jpg", "test-bucket");
+//		String filePath = "/Users/ryanxu/Downloads/imgs/stage.jpg";
+//		upload(filePath, "20170725/test_stage.jpg", "test-bucket");
 		
 		//2.
 //		File file = new File(filePath);
@@ -63,18 +63,28 @@ public class QiniuUpload {
 		
 		
 		//5.覆盖上传
-//		overrideUpload("test-bucket", "97p58PICV26.jpg", "/Users/ryanxu/Downloads/tooopen_sy.jpg");
+		overrideUpload("test-bucket", "9999.jpg", "/Users/ryanxu/Downloads/imgs/gif8.gif");
 		
 	}
 	
 	
+	
+	
+	/**
+	 * 七牛上传
+	 * @param filePath
+	 * @param key
+	 * @param bucketName
+	 */
 	public static void upload(String filePath, String key, String bucketName) {
+		//1、 创建Auth 对象
 		Auth auth = Auth.create(ACCESS_KEY, SECRECT_KEY);
-		
+		//2、 获取上传凭证
 		String uploadToken = auth.uploadToken(bucketName);
-		
+		//3、 设置上传空间所属区域
 		Configuration cfg = new Configuration(Zone.zone0());
 		UploadManager uploadMgr = new UploadManager(cfg);
+		
 		try {
 			File file = new File(filePath);
 			System.out.println(uploadToken);

@@ -41,7 +41,7 @@ public class QiniuUploadPolicy {
 //		testReturnBody("test-bucket", new File("/Users/ryanxu/Downloads/imgs/gif7.gif"));
 		
 		//测试七牛 自定义变量， 也是通过上传策略中的returnBody， 也测试了 callbackUrl & callbackBody
-//		testUserDefinedVar("test-bucket", new File("/Users/ryanxu/Downloads/imgs/a0.jpg"));
+		testUserDefinedVar("test-bucket", new File("/Users/ryanxu/Downloads/imgs/a0.jpg"));
 		
 		//测试七牛 上传策略中的 mimeType(文件类型)、 fsizeMin(文件大小最小值)、fsizeLimit(文件大小最大值)
 //		qualifyFileType("test-bucket", new File("/Users/ryanxu/Downloads/imgs/gif7.gif"));
@@ -93,19 +93,22 @@ public class QiniuUploadPolicy {
 		//3. 构建上传策略， 指定自定义变量 currTime and content 
 		StringMap putPolicy = new StringMap();
 		//设置 callbackUrl and callbackBody
-//		putPolicy.putNotNull("callbackBody", "{\"currTime\":\"$(x:currTime)\", \"content\":\"$(x:content)\", \"key\":\"$(key)\"}")
-//			     .putNotNull("callbackUrl", "http://22e7845a.ngrok.io/WebProject/callback");
+		String domain = "3fd73076.ngrok.io";
+		putPolicy.putNotNull("callbackBody", "{\"currTime\":\"$(x:currTime)\", \"content\":\"$(x:content)\", \"domain\":\"$(x:domain)\",\"key\":\"$(key)\"}")
+			     .putNotNull("callbackUrl", "http://" + domain + "/WebProject/callback")
+			     .putNotNull("callbackBodyType", "application/json");
 		//设置 returnBody 返回自定义变量的结果
-		putPolicy.putNotEmpty("returnBody", "{\"currTime\":\"$(x:currTime)\", \"content\":\"$(x:content)\", \"key\":\"$(key)\"}");
+//		putPolicy.putNotEmpty("returnBody", "{\"currTime\":\"$(x:currTime)\", \"content\":\"$(x:content)\", \"key\":\"$(key)\"}");
 		
 		//4. 获取token， 包含了上传策略（putPolicy）中的returnBody
-		String token = auth.uploadToken(bucket, "20170721/"+target.getName(), 3600, putPolicy);
+		String token = auth.uploadToken(bucket, "20170803/"+target.getName(), 3600, putPolicy);
 		RequestBody reqBody = new MultipartBody.Builder()
 								.setType(MultipartBody.FORM)
 								.addFormDataPart("file", target.getName(), fileBody)
-								.addFormDataPart("key", "20170721/"+target.getName())
+								.addFormDataPart("key", "20170803/"+target.getName())
 								.addFormDataPart("x:currTime", new SimpleDateFormat("yyyy/MM/dd:HH:mm:ss").format(new Date()))
 								.addFormDataPart("x:content", new String("Test User-Defined var by ReturnBody"))
+								.addFormDataPart("x:domain", domain)
 								.addFormDataPart("token", token)
 								.build();
 		Request req = new Request.Builder()
@@ -116,6 +119,7 @@ public class QiniuUploadPolicy {
 			okhttp3.Response resp = client.newCall(req).execute();
 			System.out.println(new String(resp.body().bytes()));
 			System.out.println(resp.code() + ":" + resp.message());
+			
 		} catch (IOException e) {
 			e.printStackTrace();
 		}

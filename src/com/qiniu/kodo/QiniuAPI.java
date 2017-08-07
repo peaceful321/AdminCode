@@ -3,22 +3,15 @@ package com.qiniu.kodo;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 import javax.xml.ws.http.HTTPException;
+
+import com.qiniu.util.Auth;
+import com.qiniu.util.UrlSafeBase64;
 
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
-
-import com.qiniu.common.QiniuException;
-import com.qiniu.common.Zone;
-import com.qiniu.storage.BucketManager;
-import com.qiniu.storage.Configuration;
-import com.qiniu.storage.model.FileInfo;
-import com.qiniu.storage.model.FileListing;
-import com.qiniu.util.Auth;
-import com.qiniu.util.UrlSafeBase64;
 
 /**
  * 七牛云 常用API
@@ -45,10 +38,8 @@ public class QiniuAPI {
 //		boolean flag = dropBucketByName("ebook-bucket");
 //		System.out.println(flag + "");
 		
-		
 //		getResourcesByBucket("test-bucket");
 
-		
 		getMetadata("test-bucket", "Freehand.jpg");
 	}
 	

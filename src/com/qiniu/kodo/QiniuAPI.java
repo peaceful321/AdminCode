@@ -54,7 +54,7 @@ public class QiniuAPI {
 	
 	
 	/**
-	 * ��ȡ����ƾ֤
+	 * 获取token凭证
 	 * @return
 	 */
 	public static String getAccessToken(String interfaceName) {
@@ -93,9 +93,9 @@ public class QiniuAPI {
 	
 	
 	/**
-	 * ����һ���洢�ռ�
-	 * @param bucketName �����Ĵ洢�ռ�����
-	 * @return true:�����ɹ�, false:����ʧ��
+	 * 创建指定名称的空间
+	 * @param bucketName 待创建的空间名称
+	 * @return true: 成功, false: 失败
 	 */
 	public static boolean createBucket(String bucketName) {
 		boolean flag = false;
@@ -129,8 +129,8 @@ public class QiniuAPI {
 	
 	
 	/**
-	 * ��ȡһ���ռ�󶨵������б�
-	 * @param bucketName �ռ�����
+	 * 根据空间名称，获取空间绑定的域名列表
+	 * @param bucketName 空间名称
 	 * @return List<String>
 	 */
 	public static List<String> getDomainListByBucket(String bucketName) {
@@ -160,8 +160,8 @@ public class QiniuAPI {
 	
 	
 	/**
-	 * ���ݿռ�����ɾ���ռ䣬 �ռ�ɾ���� �ÿռ�����ݶ���ɾ��
-	 * @param bucketName
+	 * 删除空间，通过空间名称； 同七牛portal平台，空间设置中的删除操作
+	 * @param bucketName 空间名称
 	 * @return
 	 */
 	public static boolean dropBucketByName(String bucketName) {
